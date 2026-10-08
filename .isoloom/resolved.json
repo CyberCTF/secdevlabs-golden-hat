@@ -1,0 +1,144 @@
+{
+  "generated_by_isoloom": "from isoloom.yml; don't edit: change the spec and run `isoloom generate` (`isoloom check` fails when this file is out of date)",
+  "resolved_version": 1,
+  "name": "secdevlabs-golden-hat",
+  "instance": null,
+  "inputs": [],
+  "networks": {
+    "lab": {
+      "cidr": "10.60.105.0/24",
+      "docker_cidr": "10.60.105.0/24",
+      "internet": false,
+      "gateway": null,
+      "gateway_address": "10.60.105.1",
+      "router": null,
+      "controller": "10.60.105.253"
+    }
+  },
+  "reach": [],
+  "machines": {
+    "app": {
+      "access": false,
+      "supplied": false,
+      "shapes": [
+        "docker"
+      ],
+      "arch": "amd64",
+      "os": null,
+      "windows": false,
+      "addresses": {
+        "lab": "10.60.105.10"
+      },
+      "docker_addresses": {
+        "lab": "10.60.105.10"
+      },
+      "services": [
+        {
+          "port": 10006,
+          "name": "web",
+          "http": true,
+          "publish": 10006
+        }
+      ],
+      "depends_on": [],
+      "inputs": [],
+      "volumes": {},
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 512,
+        "disk_gb": 20
+      },
+      "gateway_of": [],
+      "routes": [],
+      "default_gateway": null,
+      "offline": true
+    }
+  },
+  "start_order": [
+    "app"
+  ],
+  "clones": {},
+  "tools": {},
+  "groups": {},
+  "router": null,
+  "controller": {
+    "addresses": {
+      "lab": "10.60.105.253"
+    }
+  },
+  "published": [
+    {
+      "machine": "app",
+      "port": 10006,
+      "host_port": 10006
+    }
+  ],
+  "targets": {
+    "possible": [
+      "docker",
+      "hosted",
+      "docker-vm",
+      "cloud-docker",
+      "kubernetes"
+    ],
+    "generated": [
+      "docker",
+      "hosted",
+      "docker-vm",
+      "cloud-docker",
+      "kubernetes"
+    ],
+    "refused": {},
+    "not_possible": {
+      "hybrid": "only when some machines are containers and others are VMs",
+      "vagrant": "needs `vm:` on app",
+      "proxmox": "needs `vm:` on app",
+      "cloud-vm": "needs `vm:` on app",
+      "external": "needs `external:` on app"
+    }
+  },
+  "checks": {
+    "default_position": "networks",
+    "positions": [
+      {
+        "position": "networks",
+        "machine": null,
+        "runner": "isoloom-check",
+        "checks": [
+          {
+            "name": "the club page answers",
+            "derived": false,
+            "kind": "http",
+            "target": "http://app:10006/",
+            "expect": "200",
+            "wait": 120
+          },
+          {
+            "name": "mitmproxy 5.3.0 blocks /golden.secret",
+            "derived": false,
+            "kind": "script",
+            "target": "checks/proxy.sh",
+            "expect": "",
+            "wait": 0
+          }
+        ]
+      },
+      {
+        "position": "app",
+        "machine": "app",
+        "runner": "isoloom-check-app",
+        "checks": [
+          {
+            "name": "no internet from app",
+            "derived": true,
+            "kind": "http",
+            "target": "http://1.1.1.1/",
+            "expect": "blocked",
+            "wait": 0
+          }
+        ]
+      }
+    ]
+  },
+  "message": "The Golden Hat Society answers at http://localhost:10006/. Its\nsecret is at /golden.secret, but the proxy in front only lets the club in. Read the headers.\n"
+}
