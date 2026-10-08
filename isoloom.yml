@@ -3,7 +3,7 @@
 # mitmproxy 5.3.0 reverse proxy that blocks /golden.secret, a Vulnerable and Outdated Component
 # (HTTP request smuggling, CVE-2021-39214). Vendored unchanged in build/app/app/ (the app folder
 # owasp-top10-2021-apps/a6/golden-hat of secDevLabs), built by an overlay of upstream's
-# Dockerfile. `isoloom generate`, then `isoloom up docker`.
+# Dockerfile. `isoloom generate`, then `isoloom run docker`.
 version: 1
 name: secdevlabs-golden-hat
 
