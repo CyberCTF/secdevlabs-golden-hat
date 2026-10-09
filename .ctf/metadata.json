@@ -4,11 +4,5 @@
   "question": "Get past the reverse proxy and read the password on /golden.secret.",
   "category": "WEB",
   "difficulty": 3,
-  "evidence_kind": "SECRET",
-  "capabilities": [
-    "vulnerable-components",
-    "http-request-smuggling",
-    "cve-2021-39214",
-    "reverse-proxy-bypass"
-  ]
+  "evidence_kind": "SECRET"
 }
