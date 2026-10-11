@@ -1,0 +1,50 @@
+{
+  "objectives": [
+    {
+      "key": "main",
+      "title": "Read the flag",
+      "prompt": "Get past the reverse proxy and retrieve the flag (/ctf/flag).",
+      "check": {
+        "evidence": "SECRET",
+        "format": "FLAG{%s}"
+      },
+      "dev": "FLAG{dev-secdevlabs-golden-hat}",
+      "hints": [
+        "The proxy and the application server disagree about where a request ends.",
+        "Read about HTTP request smuggling and the proxy's version."
+      ],
+      "steps": [
+        {
+          "key": "proxy",
+          "title": "Identify the proxy",
+          "prompt": "Which reverse proxy sits in front of the app?",
+          "check": {
+            "answer": [
+              "mitmproxy"
+            ]
+          }
+        },
+        {
+          "key": "version",
+          "title": "Find the version",
+          "prompt": "Which mitmproxy version? (x.y.z)",
+          "check": {
+            "answer_regex": "^\\s*5\\.3\\.0\\s*$"
+          }
+        },
+        {
+          "key": "class",
+          "title": "Name the technique",
+          "prompt": "Which technique bypasses the proxy?",
+          "check": {
+            "answer": [
+              "request smuggling",
+              "http request smuggling",
+              "http desync"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
