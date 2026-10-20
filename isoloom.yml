@@ -8,21 +8,29 @@ version: 1
 name: secdevlabs-golden-hat
 
 # Given by the CyberCTF launcher: this player's flag. Without it the development flag.
-inputs: [CTF_FLAG_MAIN]
+inputs:
+  CTF_FLAG_MAIN: {}
 
 networks:
-  lab: { cidr: 10.60.105.0/24, internet: false }
+  lab: {cidr: 10.60.105.0/24, internet: false}
 
 machines:
   app:
-    networks: { lab: 10 }
-    services: [{ port: 10006, name: web, http: true, publish: 10006 }]
-    resources: { cpus: 1, memory_mb: 512 }
-    inputs: [CTF_FLAG_MAIN]
-    volumes: { ctf: /ctf }   # the flag, written by ctf/flag.sh at every start
-    docker:
+    networks: {lab: 10}
+    resources: {cpus: 1, memory_mb: 512}
+    volumes: {ctf: /ctf}     # the flag, written by ctf/flag.sh at every start
+    ports:
+      web:
+        port: 10006
+        protocol: http
+        publish: true
+    files:
+      - path: /run/lab/ctf_flag_main
+        input: CTF_FLAG_MAIN
+    setup:
+      - ctf/flag.sh
+    app:
       build: build/app
-      init: [ctf/flag.sh]
 
 checks:
   - name: the club page answers
@@ -32,5 +40,5 @@ checks:
     script: checks/proxy.sh
 
 message: |
-  The Golden Hat Society answers at http://localhost:{{ machines.app.services.0.publish }}/. Its
+  The Golden Hat Society answers at {{ machines.app.ports.web.url }}. Its
   secret is at /golden.secret, but the proxy in front only lets the club in. Read the headers.

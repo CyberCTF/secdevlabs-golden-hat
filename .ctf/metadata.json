@@ -1,8 +1,11 @@
 {
+  "project_name": "cyberlabs-secdevlabs-golden-hat",
+  "slug": "secdevlabs-golden-hat",
   "title": "secDevLabs Golden Hat Society",
   "description": "A Flask page for a members-only club, served by gunicorn behind a mitmproxy 5.3.0 reverse proxy. The proxy refuses any request for /golden.secret.",
-  "question": "Get past the reverse proxy to reach /golden.secret. The flag is in /ctf/flag.",
-  "category": "WEB",
+  "category": "web",
   "difficulty": 3,
-  "evidence_kind": "SECRET"
+  "evidence_kind": "SECRET",
+  "capabilities": [],
+  "question": "Get past the reverse proxy to reach /golden.secret. The flag is in /ctf/flag."
 }
